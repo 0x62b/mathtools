@@ -17,9 +17,41 @@ export default function Calculator() {
         <Link href="/" className="m-2 font-semibold">MathTools</Link>
         <h1 className="font-bold text-2xl m-2">Calculator</h1>
       </header>
-      <form className="w-[50%]" onSubmit={submit}>
-        <input type="text" className="bg-zinc-900 p-2 m-1 rounded-md w-full" placeholder="Calculate..."/>
-      </form>
+        <div className="w-[50%]">
+          <form className="w-full" onSubmit={submit}>
+            <input type="text" className="bg-zinc-900 p-2 m-1 rounded-md w-full" placeholder="Calculate..." id="calculation"/>
+            <input type="submit" hidden id="calculate"/>
+          </form>
+          <div className="grid grid-cols-5">
+            {["+", "-", "*", "/",      "sin(",
+              "9", "8", "7", "^",      "cos(",
+              "6", "5", "4", "%",      "tan(",
+              "3", "2", "1", "sqrt(", "(",
+              "!", "0", ".", "cbrt(", ")"].map(a => (
+              <button
+                key={a}
+                className="bg-zinc-900 hover:bg-zinc-800 p-2 m-1 rounded-sm"
+                onClick={() => (document.getElementById("calculation") as HTMLInputElement).value += a}
+              >
+                {a}
+              </button>
+            ))}
+          </div>
+          <div className="grid grid-cols-5">
+            <button
+              className="bg-zinc-900 hover:bg-zinc-800 p-2 m-1 rounded-sm"
+              onClick={() => (document.getElementById("calculation") as HTMLInputElement).value = ""}
+            >
+              C
+            </button>
+            <button
+              className="bg-zinc-900 hover:bg-zinc-800 p-2 m-1 rounded-sm"
+              onClick={() => (document.getElementById("calculate") as HTMLButtonElement).click()}
+            >
+              =
+            </button>
+          </div>
+        </div>
     </div>
   )
 }
