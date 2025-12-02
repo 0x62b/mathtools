@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Calculator from "../../components/Calculator";
+import Calculator from "@/app/components/Calculator";
 
 export default function CalculatorPage() {
   return (
