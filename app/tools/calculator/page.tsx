@@ -50,6 +50,18 @@ export default function Calculator() {
             >
               =
             </button>
+            <button
+              className="bg-zinc-900 hover:bg-zinc-800 p-2 m-1 rounded-sm"
+              onClick={() => 
+                (document.getElementById("calculation") as HTMLInputElement).value =
+                  (document.getElementById("calculation") as HTMLInputElement).value.substring(
+                    0,
+                    (document.getElementById("calculation") as HTMLInputElement).value.length-1
+                  )
+              }
+            >
+              &lt;-
+            </button>
           </div>
         </div>
     </div>
