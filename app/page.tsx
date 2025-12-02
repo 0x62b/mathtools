@@ -10,6 +10,8 @@ export default function Home() {
         <ToolCard title="Random Generator" desc="Generate random numbers" url="/tools/random"/>
         <ToolCard title="Word Counter" desc="Count words in a text" url="/tools/counter"/>
         <ToolCard title="RegEx" desc="Interpret regular expressions" url="/tools/regex"/>
+        <ToolCard title="Text Converter" desc="Text to hex/binary etc" url="/tools/text"/>
+        <ToolCard title="JSON Formatter" desc="Formats JSON 🤯" url="/tools/json"/>
       </div>
     </div>
   );
