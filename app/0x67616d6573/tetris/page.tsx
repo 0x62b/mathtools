@@ -51,6 +51,17 @@ export default function Tetris() {
     return false;
   }, [board]);
 
+  const rotate = useCallback(() => {
+    if (!piece || paused) return;
+    const rotated = piece.shape[0].map((_, i) =>
+      piece.shape.map(row => row[i]).reverse()
+    );
+
+    const piece1 = { ...piece, shape: rotated };
+
+    if (!collide(piece1)) setPiece(piece1);
+  }, [piece, paused, collide]);
+
   const merge = useCallback(() => {
     if (!piece) return;
     const board1 = board.map(row => [...row]);
@@ -63,53 +74,41 @@ export default function Tetris() {
         }
       });
     });
-    setBoard(board1);
-  }, [piece, board]);
-
-  const clear = useCallback(() => {
-    const board1 = board.filter(row => row.some(cell => !cell));
-    const cleared = HEIGHT - board1.length;
-
+    
+    // clear lines immediately
+    const board2 = board1.filter(row => row.some(cell => !cell));
+    const cleared = HEIGHT - board2.length;
+    
     if (cleared > 0) {
       setScore(prev => prev + cleared * 100);
       const empty = Array.from({ length: cleared }, () => Array(WIDTH).fill(""));
-      setBoard([...empty, ...board1]);
-    }
-  }, [board]);
-
-const rotate = useCallback(() => {
-  if (!piece || paused) return;
-  const rotated = piece.shape[0].map((_, i) =>
-    piece.shape.map(row => row[i]).reverse()
-  );
-
-  const piece1 = { ...piece, shape: rotated };
-
-  if (!collide(piece1)) setPiece(piece1);
-}, [piece, paused, collide]);
-
-const move = useCallback((dx: number, dy: number) => {
-  if (!piece || paused) return;
-
-  if (!collide(piece, dx, dy)) {
-    setPiece({ ...piece, x: piece.x + dx, y: piece.y + dy });
-  } else if (dy > 0) {
-    merge();
-    clear();
-    const piece1 = getPiece();
-    if (collide(piece1)) {
-      setDone(true);
+      setBoard([...empty, ...board2]);
     } else {
-      setPiece(piece1);
+      setBoard(board1);
     }
-  }
-}, [piece, paused, collide, merge, clear]);
+    }, [piece, board]);
 
-useEffect(() => {
-  if (done || paused) return;
-  const interval = setInterval(() => move(0, 1), 500);
-  return () => clearInterval(interval);
-}, [done, paused, move]);
+  const move = useCallback((dx: number, dy: number) => {
+    if (!piece || paused) return;
+
+    if (!collide(piece, dx, dy)) {
+      setPiece({ ...piece, x: piece.x + dx, y: piece.y + dy });
+    } else if (dy > 0) {
+      merge();
+      const piece1 = getPiece();
+      if (collide(piece1)) {
+        setDone(true);
+      } else {
+        setPiece(piece1);
+      }
+    }
+  }, [piece, paused, collide, merge]);
+
+  useEffect(() => {
+    if (done || paused) return;
+    const interval = setInterval(() => move(0, 1), 500);
+    return () => clearInterval(interval);
+  }, [done, paused, move]);
 
   useEffect(() => {
     if (!piece && !done) {
