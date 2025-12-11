@@ -1,9 +1,9 @@
 "use client";
 
-export default function Minesweeper() {
+export default function Tetris() {
   return (
     <div>
-
+      
     </div>
   )
 }

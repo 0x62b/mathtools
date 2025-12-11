@@ -8,7 +8,8 @@ export default function Games() {
 
   const games = [
     "2048:Combine the tiles to get 2048",
-    "Minesweeper:Minesweeper"
+    "Minesweeper:Minesweeper",
+    "Tetris:Stack blocks ig"
   ];
 
   return (
