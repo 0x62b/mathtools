@@ -1,7 +1,6 @@
 "use client";
 
-import Bowser from "bowser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Files() {
   const [to, setTo] = useState("avif");
@@ -47,7 +46,7 @@ export default function Files() {
 
   return (
     <div className="flex flex-col">
-      <span>Note: For best compatibility please use Chromium based browsers</span>
+      <span>Note: Please use a Chromium based browser for best compatibility</span>
       <input
         type="file"
         accept="image/*"
