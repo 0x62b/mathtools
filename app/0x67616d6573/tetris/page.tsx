@@ -163,19 +163,19 @@ export default function Tetris() {
 
   return (
     <div className="flex flex-col items-center gap-4 p-8">
-      <div className="text-2xl font-bold">Score: {score}</div>
-      <div className="grid gap-[1px] bg-zinc-700 p-1" style={{ gridTemplateColumns: `repeat(${WIDTH}, 24px)` }}>
+      <div className="text-2xl font-semibold">Score: {score}</div>
+      <div className="grid gap-[1px] bg-zinc-700" style={{ gridTemplateColumns: `repeat(${WIDTH}, 24px)` }}>
         {render().map((row, y) =>
           row.map((cell, x) => (
             <div key={`${y}-${x}`} className={`w-6 h-6 ${cell || "bg-zinc-900"}`} />
           ))
         )}
       </div>
-      <div className="flex gap-2">
-        <button onClick={reset} className="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 rounded">
+      <div className="flex">
+        <button onClick={reset} className="p-2 m-1 bg-zinc-700 hover:bg-zinc-600 rounded-mde">
           Reset
         </button>
-        <button onClick={() => setPaused(prev => !prev)} className="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 rounded">
+        <button onClick={() => setPaused(prev => !prev)} className="p-2 m-1 bg-zinc-700 hover:bg-zinc-600 rounded-md">
           {paused ? "Resume" : "Pause"}
         </button>
       </div>
