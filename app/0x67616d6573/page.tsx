@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Games() {
   const [title, setTitle] = useState("2048");
@@ -13,6 +13,10 @@ export default function Games() {
     "Tetris:Stack blocks ig",
     "TicTacToe:Tic Tac Toe",
   ];
+
+  useEffect(() => {
+    document.getElementById("game-container")?.focus();
+  })
 
   return (
     <div className="flex flex-col min-h-screen items-center bg-zinc-50 font-sans dark:bg-black p-4 w-screen">
@@ -27,7 +31,6 @@ export default function Games() {
               onClick={() => {
                 setTitle(game.split(':')[0]);
                 setDesc(game.split(':')[1]);
-                document.getElementById("game-container")?.focus();
               }}
             >
               <span className="text-md font-semibold">{game.split(':')[0]}</span>
