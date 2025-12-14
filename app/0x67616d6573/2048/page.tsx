@@ -22,6 +22,7 @@ function Cell({ score }: { score: number }) {
 
 export default function G2048() {
   const [board, setBoard] = useState<number[][]>([]);
+  const [score, setScore] = useState(0);
 
   function tile(board: number[][]) {
     let empty: [number, number][] = [];
@@ -57,6 +58,7 @@ export default function G2048() {
     while (i < row.length) {
       if (i + 1 < row.length && row[i] == row[i + 1]) {
         ret.push(row[i] * 2);
+        setScore(score + row[i] * 2)
         i += 2;
       } else {
         ret.push(row[i]);
@@ -108,17 +110,26 @@ export default function G2048() {
   }, [])
 
   return (
-    <div className="w-108 h-108 flex flex-col items-center justify-center rounded-md bg-zinc-900">
-      <div>
-        {board.map((row, i) => (
-          <div key={i} className="flex flex-row w-96 h-24 m-2">
-            {row.map((value, j) => (
-              <Cell key={j} score={value} />
-            ))}
-          </div>
-        ))}
+    <div className="flex flex-col">
+      <span className="text-lg font-semibold">{score}</span>
+      <div className="w-108 h-108 flex flex-col items-center justify-center rounded-md bg-zinc-900">
+        <div>
+          {board.map((row, i) => (
+            <div key={i} className="flex flex-row w-96 h-24 m-2">
+              {row.map((value, j) => (
+                <Cell key={j} score={value} />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
       <span>Arrow keys to play</span>
+      <button 
+        className="bg-zinc-800 hover:bg-zinc-700 p-2 m-1 rounded-md w-min"
+        onClick={reset}
+      >
+        Reset
+      </button>
     </div>
   );
 }
