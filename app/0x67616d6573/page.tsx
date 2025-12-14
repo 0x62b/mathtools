@@ -8,7 +8,7 @@ export default function Games() {
 
   const games = [
     "2048:Combine the tiles to get 2048",
-    "FlappyBird:Flappy Bird",
+    "CrappyBird:Flappy Bird but crappy",
     "Minesweeper:Minesweeper",
     "Tetris:Stack blocks ig",
     "TicTacToe:Tic Tac Toe",
