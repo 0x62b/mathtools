@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 function Cell({ revealed, flagged, value, onClick, onRightClick }: { 
   revealed: boolean; 
@@ -45,6 +45,18 @@ export default function Minesweeper() {
   const [mines, setMines] = useState(40);
   const [status, setStatus] = useState<"play" | "win" | "lose">("play");
   const [board, setBoard] = useState(fill());
+  const [secs, setSecs] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    if (status !== "play" || !started) return;
+
+    const interval = setInterval(() => {
+      setSecs(s => s + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [status, started]);
 
   function generate(r: number, c: number, mines: number) {
     let ret = Array(r).fill(0).map(() => 
@@ -97,10 +109,14 @@ export default function Minesweeper() {
     setMines(mineCount);
     setBoard(generate(r, c, mineCount));
     setStatus("play");
+    setSecs(0);
+    setStarted(false);
   };
 
   function revealCell(row: number, col: number) {
     if (status !== "play" || board[row][col].revealed || board[row][col].flagged) return;
+
+    if (!started) setStarted(true);
 
     let ret = board.map(r => r.map(c => ({ ...c })));
     
@@ -147,7 +163,7 @@ export default function Minesweeper() {
     setBoard(ret);
   }
 
-  const flagCount = board.flat().filter(c => c.flagged).length;
+  const flags = board.flat().filter(c => c.flagged).length;
 
   return (
     <div className="p-4">
@@ -172,31 +188,40 @@ export default function Minesweeper() {
             Expert
           </button>
         </div>
-        <div className="mb-2">
-          <span className="mr-4">Mines: {mines - flagCount}</span>
-          <span onClick={() => resize(rows, cols, mines)}>
+      </div>
+
+      <div className="w-min">
+        <div className="bg-gray-400 w-full h-12 flex flex-row justify-between items-center p-2">
+          <span className="bg-black text-red-600 text-xl p-1 w-[3em] flex items-center justify-center">{mines - flags}</span>
+
+          <span 
+            onClick={() => resize(rows, cols, mines)}
+            className="bg-gray-400 border-t-2 border-l-2 border-white border-r-2 border-b-2 border-r-gray-600 border-b-gray-600 hover:bg-gray-500 w-8 h-8 flex items-center justify-center"
+          >
             {status == "win" && "😎"}
             {status == "lose" && "😵"}
             {status == "play" && "🙂"}
           </span>
-        </div>
-      </div>
 
-      <div ref={boardRef} className="inline-block border-4 border-gray-600">
-        {board.map((r, rI) => (
-          <div key={rI} className="flex">
-            {r.map((c, cI) => (
-              <Cell 
-                key={cI} 
-                revealed={c.revealed} 
-                flagged={c.flagged} 
-                value={c.value}
-                onClick={() => revealCell(rI, cI)}
-                onRightClick={(e) => flag(rI, cI, e)}
-              />
-            ))}
-          </div>
-        ))}
+          <span className="bg-black text-red-600 text-xl p-1 w-[3em] flex items-center justify-center">{secs}</span>
+        </div>
+
+        <div ref={boardRef} className="inline-block border-4 border-gray-600">
+          {board.map((r, rI) => (
+            <div key={rI} className="flex">
+              {r.map((c, cI) => (
+                <Cell 
+                  key={cI} 
+                  revealed={c.revealed} 
+                  flagged={c.flagged} 
+                  value={c.value}
+                  onClick={() => revealCell(rI, cI)}
+                  onRightClick={(e) => flag(rI, cI, e)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
