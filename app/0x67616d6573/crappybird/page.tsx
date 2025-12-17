@@ -96,6 +96,8 @@ export default function CrappyBird() {
 
         pipes.forEach((pipe) => {
           pipe.x -= PIPE_SPEED;
+
+          checkCollided(pipe);
         });
 
         // clear off-screen
@@ -125,6 +127,16 @@ export default function CrappyBird() {
       ctx.fill();
 
       requestAnimationFrame(gameLoop);
+    }
+
+    function checkCollided(pipe: Pipe) {
+      // if x and y line up then thing die :thumbup:
+      if (bird.x + bird.radius > pipe.x && bird.x - bird.radius < pipe.x + PIPE_WIDTH) {
+        if (bird.y - bird.radius < pipe.topHeight || 
+            bird.y + bird.radius > pipe.topHeight + PIPE_GAP) {
+          die();
+        }
+      }
     }
 
     function die() {
