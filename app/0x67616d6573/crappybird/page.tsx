@@ -31,6 +31,31 @@ export default function CrappyBird() {
       jump: -5,
     };
 
+    const PIPE_WIDTH = 60;
+    const PIPE_GAP = 300;
+    const PIPE_SPEED = 2;
+    const PIPE_SPACING = 300;
+
+    interface Pipe {
+      x: number;
+      topHeight: number;
+    }
+
+    let pipes: Pipe[] = [];
+    let frameCount = 0;
+    const PIPE_SPAWN_INTERVAL = PIPE_SPACING / PIPE_SPEED;
+
+    function spawnPipe() {
+      const minHeight = 50;
+      const maxHeight = HEIGHT - PIPE_GAP - minHeight;
+      const topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
+
+      pipes.push({
+        x: WIDTH,
+        topHeight,
+      });
+    }
+
     function handleInput(e: KeyboardEvent | MouseEvent) {
       if (e instanceof KeyboardEvent && e.code !== "Space") return;
       if (!start) {
@@ -63,7 +88,36 @@ export default function CrappyBird() {
         if (bird.y + bird.radius > HEIGHT) {
           die();
         }
+
+        frameCount++;
+        if (frameCount % PIPE_SPAWN_INTERVAL === 0) {
+          spawnPipe();
+        }
+
+        pipes.forEach((pipe) => {
+          pipe.x -= PIPE_SPEED;
+        });
+
+        // clear off-screen
+        pipes = pipes.filter((pipe) => pipe.x + PIPE_WIDTH > 0);
       }
+
+      ctx.fillStyle = "#228B22";
+      pipes.forEach((pipe) => {
+        ctx.fillRect(
+          pipe.x,
+          0,
+          PIPE_WIDTH,
+          pipe.topHeight
+        );
+
+        ctx.fillRect(
+          pipe.x,
+          pipe.topHeight + PIPE_GAP,
+          PIPE_WIDTH,
+          HEIGHT - pipe.topHeight - PIPE_GAP
+        );
+      });
 
       ctx.fillStyle = "#FFD700";
       ctx.beginPath();
@@ -77,7 +131,9 @@ export default function CrappyBird() {
       start = false;
       setStarted(false);
       bird.x = 80;
-      bird.y = HEIGHT/2;
+      bird.y = HEIGHT / 2;
+      pipes = [];
+      frameCount = 0;
     }
 
     gameLoop();
