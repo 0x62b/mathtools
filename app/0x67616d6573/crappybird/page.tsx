@@ -20,6 +20,8 @@ export default function CrappyBird() {
     canvas.height = HEIGHT;
 
     let start = false;
+    let startTime = 0;
+    let currentScore = 0;
 
     const bird = {
       x: 80,
@@ -38,6 +40,7 @@ export default function CrappyBird() {
     interface Pipe {
       x: number;
       topHeight: number;
+      scored: boolean;
     }
 
     let pipes: Pipe[] = [];
@@ -52,6 +55,7 @@ export default function CrappyBird() {
       pipes.push({
         x: WIDTH,
         topHeight,
+        scored: false,
       });
     }
 
@@ -59,6 +63,7 @@ export default function CrappyBird() {
       if (e instanceof KeyboardEvent && e.code !== "Space") return;
       if (!start) {
         start = true;
+        startTime = Date.now();
       }
       bird.velocity = bird.jump;
     }
@@ -94,6 +99,13 @@ export default function CrappyBird() {
 
         pipes.forEach((pipe) => {
           pipe.x -= PIPE_SPEED;
+
+          // bird x is past pipe?
+          if (!pipe.scored && bird.x > pipe.x + PIPE_WIDTH) {
+            pipe.scored = true;
+            currentScore++;
+            setScore(currentScore);
+          }
 
           checkCollided(pipe);
         });
@@ -143,10 +155,13 @@ export default function CrappyBird() {
       bird.y = HEIGHT / 2;
       pipes = [];
       frameCount = 0;
+      startTime = 0;
+      currentScore = 0;
+      setScore(0);
     }
 
     gameLoop();
-
+    
     return () => {
       window.removeEventListener("keydown", handleInput);
       canvas.removeEventListener("click", handleClick);
@@ -154,6 +169,7 @@ export default function CrappyBird() {
   }, []);
   return (
     <div className="flex flex-col">
+      <div className="text-2xl font-bold mb-2">Score: {score}</div>
       <canvas
         ref={canvasRef}
         className="border-4 border-zinc-700 w-96 h-160 bg-blue-400 cursor-pointer"
