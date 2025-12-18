@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import ReactJsonView from '@microlink/react-json-view'
+import dynamic from "next/dynamic";
+
+const ReactJsonView = dynamic(() => import('@microlink/react-json-view'), {
+  ssr: false,
+});
 
 export default function Format() {
   const [json, setJson] = useState<string>("");
