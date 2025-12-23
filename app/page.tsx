@@ -16,16 +16,16 @@ export default function Home() {
       <div className="grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1">
         <ToolCard title="Calculator" desc="Just a calculator" url="/tools/calculator"/>
         <ToolCard title="Converter" desc="Convert between units" url="/tools/converter"/>
-        <ToolCard title="Random Generator" desc="Generate random numbers" url="/tools/random"/>
-        <ToolCard title="Word Counter" desc="Count words in a text" url="/tools/counter"/>
-        <ToolCard title="RegEx" desc="Interpret regular expressions" url="/tools/regex"/>
-        <ToolCard title="Text Converter" desc="Text to hex/binary etc" url="/tools/text"/>
-        <ToolCard title="JSON Formatter" desc="Formats JSON 🤯" url="/tools/json"/>
-        <ToolCard title="Stopwatch/Timer" desc="Stopwatch and Timer" url="/tools/timer"/>
-        <ToolCard title="Roman Converter" desc="Converts Roman numerals" url="/tools/roman"/>
-        <ToolCard title="Number Base Converter" desc="Convert numbers between bases" url="/tools/base"/>
-        <ToolCard title="File Converter" desc="Convert files between formats" url="/tools/files"/>
         <ToolCard title="Currency Converter" desc="Convert between currencies" url="/tools/currency"/>
+        <ToolCard title="File Converter" desc="Convert images between formats" url="/tools/files"/>
+        <ToolCard title="JSON Formatter" desc="Formats JSON 🤯" url="/tools/json"/>
+        <ToolCard title="Number Base Converter" desc="Convert numbers between bases" url="/tools/base"/>
+        <ToolCard title="Random Generator" desc="Generate random numbers" url="/tools/random"/>
+        <ToolCard title="RegEx" desc="Test regular expressions" url="/tools/regex"/>
+        <ToolCard title="Roman Converter" desc="Converts Roman numerals" url="/tools/roman"/>
+        <ToolCard title="Stopwatch/Timer" desc="Stopwatch and Timer" url="/tools/timer"/>
+        <ToolCard title="Text Converter" desc="Text to hex/binary and vice versa" url="/tools/text"/>
+        <ToolCard title="Word Counter" desc="Count words/chars in a text" url="/tools/counter"/>
       </div>
     </div>
   );
