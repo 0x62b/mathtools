@@ -8,9 +8,15 @@ export default function CounterPage() {
     const [words, setWords] = useState<string>("0");
     function change(e: ChangeEvent) {
       const text = (e.target as HTMLTextAreaElement).value || "";
-  
+
+      if (text.length == 0) {
+        setWords("0");
+        setChars("0");
+        return;
+      }
+
       setChars(text.length.toString());
-      setWords(text.split(" ").length.toString());
+      setWords(text.trimEnd().trimStart().split(" ").length.toString());
     }
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50 font-sans dark:bg-black p-4">
