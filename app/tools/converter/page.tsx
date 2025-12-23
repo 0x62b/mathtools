@@ -24,11 +24,11 @@ export default function ConverterPage() {
 
   const units = [
     "nm", "um", "mm", "cm", "m", "km", // metric distance values
-    "th", "in", "hh", "ft", "ch", "yd", "fur", "mi", "lea", // stupid distance values
+    "in", "ft", "ch", "yd", "mi", // stupid distance values
     "nL", "uL", "mL", "cL", "L", "kL", // metric volume values
-    "fl oz", "gi", "pt", "qt", "gal", // stupid volume values
+    "floz", "gi", "pt", "qt", "gal", // stupid volume values
     "ng", "ug", "mg", "cg", "g", "kg", "t", // metric weight values
-    "gr", "dr", "oz", "lb", "st", "qtr", "cwt", "ton", // stupid volume values
+    "gr", "dr", "oz", "lb", "cwt", "ton", // stupid volume values
   ]
   return (
     <div className="flex flex-col min-h-screen bg-zinc-50 font-sans dark:bg-black p-4">
