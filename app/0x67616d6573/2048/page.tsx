@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function Cell({ score }: { score: number }) {
   const colors: Record<number, string> = {
-    2: "bg-zinc-800",
+    2: "bg-zinc-700",
     4: "bg-gray-800",
     8: "bg-yellow-900",
     16: "bg-amber-900",
