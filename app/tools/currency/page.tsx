@@ -9,7 +9,7 @@ export default function CurrencyPage() {
   const [to, setTo] = useState(0);
   const [toUnit, setToUnit] = useState("AED");
 
-  const currencies = ["AED", "AUD", "CAD", "CNY", "GBP", "HKD", "SGD", "NZD", "USD"]; // this is the currencies i remember without internet
+  const currencies = ["AED", "AUD", "CAD", "CNY", "EUR", "GBP", "HKD", "SGD", "NZD", "USD"]; // this is the currencies i remember without internet
 
   useEffect(() => {
     if (!Number.isNaN(from)) setTo(from); // ill add actual logic later im on the plane w/o internet
