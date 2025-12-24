@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 const WIDTH = 10;
 const HEIGHT = 20;
@@ -20,9 +20,14 @@ const TETROMINOS: { [key: string]: { shape: Tetromino; color: string } } = {
 export default function Tetris() {
   const [board, setBoard] = useState<string[][]>(createBoard());
   const [piece, setPiece] = useState<{ shape: Tetromino; color: string; x: number; y: number } | null>(null);
+  const pieceRef = useRef(piece);
   const [done, setDone] = useState(false);
   const [score, setScore] = useState(0);
   const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    pieceRef.current = piece;
+  }, [piece]);
 
   function createBoard(): string[][] {
     return Array.from({ length: HEIGHT }, () => Array(WIDTH).fill(""));
@@ -52,25 +57,27 @@ export default function Tetris() {
   }, [board]);
 
   const rotate = useCallback(() => {
-    if (!piece || paused) return;
-    const rotated = piece.shape[0].map((_, i) =>
-      piece.shape.map(row => row[i]).reverse()
+    const p = pieceRef.current;
+    if (!p || paused) return;
+    const rotated = p.shape[0].map((_, i) =>
+      p.shape.map(row => row[i]).reverse()
     );
 
-    const piece1 = { ...piece, shape: rotated };
+    const piece1 = { ...p, shape: rotated };
 
     if (!collide(piece1)) setPiece(piece1);
-  }, [piece, paused, collide]);
+  }, [paused, collide]);
 
   const merge = useCallback(() => {
-    if (!piece) return;
+    const p = pieceRef.current;
+    if (!p) return;
     const board1 = board.map(row => [...row]);
-    piece.shape.forEach((row, y) => {
+    p.shape.forEach((row, y) => {
       row.forEach((cell, x) => {
         if (cell) {
-          const x1 = piece.x + x;
-          const y1 = piece.y + y;
-          if (y1 >= 0) board1[y1][x1] = piece.color;
+          const x1 = p.x + x;
+          const y1 = p.y + y;
+          if (y1 >= 0) board1[y1][x1] = p.color;
         }
       });
     });
@@ -86,13 +93,14 @@ export default function Tetris() {
     } else {
       setBoard(board1);
     }
-    }, [piece, board]);
+    }, [board]);
 
   const move = useCallback((dx: number, dy: number) => {
-    if (!piece || paused) return;
+    const p = pieceRef.current;
+    if (!p || paused) return;
 
-    if (!collide(piece, dx, dy)) {
-      setPiece({ ...piece, x: piece.x + dx, y: piece.y + dy });
+    if (!collide(p, dx, dy)) {
+      setPiece({ ...p, x: p.x + dx, y: p.y + dy });
     } else if (dy > 0) {
       merge();
       const piece1 = getPiece();
@@ -102,7 +110,7 @@ export default function Tetris() {
         setPiece(piece1);
       }
     }
-  }, [piece, paused, collide, merge]);
+  }, [paused, collide, merge]);
 
   useEffect(() => {
     if (done || paused) return;
