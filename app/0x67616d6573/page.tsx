@@ -11,7 +11,8 @@ export default function Games() {
     "CrappyBird:Flappy Bird but crappy",
     "Minesweeper:Minesweeper",
     "Tetris:Stack blocks ig",
-    "TicTacToe:Tic Tac Toe",
+    "TicTacToe:Tic Tac Toe, or Naughts and Crosses",
+    "Platformer:Yet another platformer i made for lack of anything better to do",
   ];
 
   useEffect(() => {
