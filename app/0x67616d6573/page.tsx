@@ -14,6 +14,7 @@ export default function Games() {
     "Tetris:Stack blocks ig",
     "TicTacToe:Tic Tac Toe, or Naughts and Crosses",
     "Platformer:Yet another platformer i made for lack of anything better to do",
+    "IdleMiningEmpire:Mine stuff",
   ];
 
   useEffect(() => {
